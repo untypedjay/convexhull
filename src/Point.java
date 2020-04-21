@@ -11,6 +11,11 @@ public class Point {
         this.y = y;
     }
 
+    public Point(Point p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

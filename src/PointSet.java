@@ -38,7 +38,7 @@ public class PointSet {
         if (capacity != newCapacity) {
             Point [] newBuffer = new Point[newCapacity];
             size = min(size, newCapacity);
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < size(); ++i) {
                 newBuffer[i] = buffer[i];
             }
             buffer = newBuffer;
@@ -72,7 +72,7 @@ public class PointSet {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size(); ++i) {
             if (i > 0) {
                 sb.append(", ");
             }
@@ -82,28 +82,58 @@ public class PointSet {
         return sb.toString();
     }
 
-    // TODO calculates the convex hull of the set of points
+    // calculates the convex hull of the set of points
     public ConvexPolygon convexHull() {
-        return null;
+        ConvexPolygon convexHull = new ConvexPolygon();
+        Point start = new Point(this.findLeftmostPoint());
+        Point end;
+        int i = 0;
+        do {
+            convexHull.add(start);
+            end = this.get(0);
+            for (int j = 0; j < this.size(); ++j) {
+                if (start == end || isLeft(start, end, this.get(j))) {
+                    end = this.get(j);
+                }
+            }
+            ++i;
+            System.out.println(i);
+            start = end;
+        } while (end.x != convexHull.get(0).x && end.y != convexHull.get(0).y);
+        return convexHull;
     }
 
     private void addToPointSet(PointSet resultSet, PointSet addSet) {
-        for (int i = 0; i < addSet.size; ++i) {
-            resultSet.add(addSet.buffer[i]);
+        for (int i = 0; i < addSet.size(); ++i) {
+            resultSet.add(addSet.get(i));
         }
     }
 
     protected static boolean isLeft(Point start, Point end, Point auditee) {
         double cross_product = (end.x - start.x) * (auditee.y - start.y) - (end.y - start.y) * (auditee.x - start.x);
-        System.out.println(cross_product);
         if (cross_product > 0) {
             return true;
         } else if (cross_product < 0) {
             return false;
-        } else if (auditee.x > start.x && auditee.x < end.x && auditee.y > start.y && auditee.y < end.y) {
-            return true;
-        } else {
+        } else if (distance(start, auditee) + distance(auditee, end) == distance(start, end)) {
             return false;
+        } else {
+            return true;
         }
+    }
+
+    private Point findLeftmostPoint() {
+        Point leftmost = new Point();
+        leftmost = buffer[0];
+        for (int i = 1; i < size; ++i) {
+            if (buffer[i].x < leftmost.x) {
+                leftmost = buffer[i];
+            }
+        }
+        return leftmost;
+    }
+
+    private static double distance(Point a, Point b) {
+        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.x));
     }
 }

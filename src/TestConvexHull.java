@@ -25,8 +25,13 @@ public class TestConvexHull {
         isLeftTestLess();
         isLeftTestGreaterColinear();
         isLeftTestLessColinear();
-        containsPointTestIn();
-        containsPointTestOut();
+
+        Point inside = new Point(45, 70);
+        containsPointTest(inside);
+        Point outside = new Point(55, 60);
+        containsPointTest(outside);
+
+        convexHullTest();
     }
 
     private static void isLeftTestGreater() {
@@ -61,13 +66,12 @@ public class TestConvexHull {
         System.out.println(PointSet.isLeft(start, end, test));
     }
 
-    private static void containsPointTestIn() {
-        System.out.println("---------containsPointTestIn()------------");
+    private static void containsPointTest(Point test) {
+        System.out.println("---------containsPointTest()------------");
         Point p1 = new Point(15, 55);
         Point p2 = new Point(30, 90);
         Point p3 = new Point(90, 92.5);
         Point p4 = new Point(65, 75);
-        Point test = new Point(45, 70);
         ConvexPolygon poly = new ConvexPolygon();
         poly.add(p1);
         poly.add(p2);
@@ -76,18 +80,25 @@ public class TestConvexHull {
         System.out.println(poly.containsPoint(test));
     }
 
-    private static void containsPointTestOut() {
-        System.out.println("---------containsPointTestOut()------------");
-        Point p1 = new Point(15, 55);
-        Point p2 = new Point(30, 90);
-        Point p3 = new Point(90, 92.5);
-        Point p4 = new Point(65, 75);
-        Point test = new Point(55, 60);
-        ConvexPolygon poly = new ConvexPolygon();
-        poly.add(p1);
-        poly.add(p2);
-        poly.add(p3);
-        poly.add(p4);
-        System.out.println(poly.containsPoint(test));
+    private static void convexHullTest() {
+        System.out.println("---------convexHullTest()------------");
+        Point p1 = new Point(30, 90);
+        Point p2 = new Point(65, 75);
+        Point p3 = new Point(15, 55);
+        Point p4 = new Point(45, 70);
+        Point p5 = new Point(90, 92.5);
+        Point p6 = new Point(55, 60);
+        Point p7 = new Point(75, 85);
+        PointSet set = new PointSet();
+        set.add(p1);
+        set.add(p2);
+        set.add(p3);
+        set.add(p4);
+        set.add(p5);
+        set.add(p6);
+        set.add(p7);
+        ConvexPolygon result = new ConvexPolygon(set.convexHull());
+        System.out.println(result.toString());
+
     }
 }
