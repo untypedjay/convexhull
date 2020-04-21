@@ -1,3 +1,5 @@
+package algorithmn;
+
 public class ConvexPolygon extends PointSet {
 
     // constructs a void set of points with capacity 0
@@ -22,13 +24,13 @@ public class ConvexPolygon extends PointSet {
         for (int i = 0; i < size - 1; ++i) {
             start = buffer[i];
             end = buffer[i + 1];
-            if (isLeft(start, end, p)) {
+            if (PointSet.isLeft(start, end, p)) {
                 return false;
             }
         }
         start = buffer[size - 1];
         end = buffer[0];
-        if (isLeft(start, end, p)) {
+        if (PointSet.isLeft(start, end, p)) {
             return false;
         }
         return true;

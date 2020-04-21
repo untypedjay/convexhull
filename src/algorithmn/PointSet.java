@@ -1,7 +1,9 @@
+package algorithmn;
+
 import static java.lang.Math.min;
 
 public class PointSet {
-    protected Point [] buffer = null;
+    protected Point[] buffer = null;
     protected int capacity = 0;
     protected int size = 0;
 
@@ -35,7 +37,7 @@ public class PointSet {
 
     // changes the capacity of the set of points (newCapacity can be greater, smaller or equal than the old capacity
     public void changeCapacity(int newCapacity) {
-        if (capacity != newCapacity) {
+        if (this.capacity() != newCapacity) {
             Point [] newBuffer = new Point[newCapacity];
             size = min(size, newCapacity);
             for (int i = 0; i < size(); ++i) {
@@ -48,21 +50,21 @@ public class PointSet {
 
     // adds a point to the set and increases the capacity if necessary
     public void add(Point p) {
-        if (size + 1 > capacity) {
-            changeCapacity((capacity + 1) * 2);
+        if (this.size() + 1 > this.capacity()) {
+            changeCapacity((this.capacity() + 1) * 2);
         }
         ++size;
-        buffer[size - 1] = p;
+        buffer[this.size() - 1] = p;
     }
 
     // returns the i-th point of the set
     public Point get(int i) {
-        return buffer[i]; //TODO may throw exception if index is negative
+        return buffer[i];
     }
 
     // unifies two sets of points and returns a new set of points
     public PointSet unify(PointSet other) {
-        PointSet unified = new PointSet(this.capacity + other.capacity);
+        PointSet unified = new PointSet(this.capacity() + other.capacity());
         addToPointSet(unified, this);
         addToPointSet(unified, other);
         return unified;
@@ -97,7 +99,6 @@ public class PointSet {
                 }
             }
             ++i;
-            System.out.println(i);
             start = end;
         } while (end.x != convexHull.get(0).x && end.y != convexHull.get(0).y);
         return convexHull;
@@ -123,9 +124,8 @@ public class PointSet {
     }
 
     private Point findLeftmostPoint() {
-        Point leftmost = new Point();
-        leftmost = buffer[0];
-        for (int i = 1; i < size; ++i) {
+        Point leftmost = new Point(this.get(0));
+        for (int i = 1; i < this.size(); ++i) {
             if (buffer[i].x < leftmost.x) {
                 leftmost = buffer[i];
             }
