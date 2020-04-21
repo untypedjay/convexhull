@@ -54,14 +54,17 @@ public class PointSet {
         buffer[size - 1] = p;
     }
 
-    // TODO returns the i-th point of the set
+    // returns the i-th point of the set
     public Point get(int i) {
-        return null;
+        return buffer[i]; //TODO may throw exception if index is negative
     }
 
-    // TODO unifies two sets of points and returns a new set of points
+    // unifies two sets of points and returns a new set of points
     public PointSet unify(PointSet other) {
-        return null;
+        PointSet unified = new PointSet(this.capacity + other.capacity);
+        addToPointSet(unified, this);
+        addToPointSet(unified, other);
+        return unified;
     }
 
     // constructs a string in this format: [(x1,y1), ..., (xn,yn)]
@@ -81,5 +84,11 @@ public class PointSet {
     // TODO calculates the convex hull of the set of points
     public ConvexPolygon convexHull() {
         return null;
+    }
+
+    private void addToPointSet(PointSet resultSet, PointSet addSet) {
+        for (int i = 0; i < addSet.size; ++i) {
+            resultSet.add(addSet.buffer[i]);
+        }
     }
 }
