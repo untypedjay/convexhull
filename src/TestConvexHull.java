@@ -20,15 +20,17 @@ public class TestConvexHull {
 
         ConvexPolygon poly1 = new ConvexPolygon();
         System.out.println(poly1.toString());
-        System.out.println("-------test isLeft()------------");
 
         isLeftTestGreater();
         isLeftTestLess();
         isLeftTestGreaterColinear();
         isLeftTestLessColinear();
+        containsPointTestIn();
+        containsPointTestOut();
     }
 
     private static void isLeftTestGreater() {
+        System.out.println("---------isLeftTestGreater()------------");
         Point start = new Point(15, 55);
         Point end = new Point(65, 75);
         Point test = new Point(30, 90);
@@ -36,6 +38,7 @@ public class TestConvexHull {
     }
 
     private static void isLeftTestLess() {
+        System.out.println("---------isLeftTestLess()------------");
         Point start = new Point(65, 75);
         Point end = new Point(30, 90);
         Point test = new Point(75, 85);
@@ -43,6 +46,7 @@ public class TestConvexHull {
     }
 
     private static void isLeftTestGreaterColinear() {
+        System.out.println("---------isLeftTestGreaterColinear()------------");
         Point start = new Point(90, 92.5);
         Point end = new Point(45, 70);
         Point test = new Point(15, 55);
@@ -50,9 +54,40 @@ public class TestConvexHull {
     }
 
     private static void isLeftTestLessColinear() {
+        System.out.println("---------isLeftTestLessColinear()------------");
         Point start = new Point(45, 70);
         Point end = new Point(90, 92.5);
         Point test = new Point(75, 85);
         System.out.println(PointSet.isLeft(start, end, test));
+    }
+
+    private static void containsPointTestIn() {
+        System.out.println("---------containsPointTestIn()------------");
+        Point p1 = new Point(15, 55);
+        Point p2 = new Point(30, 90);
+        Point p3 = new Point(90, 92.5);
+        Point p4 = new Point(65, 75);
+        Point test = new Point(45, 70);
+        ConvexPolygon poly = new ConvexPolygon();
+        poly.add(p1);
+        poly.add(p2);
+        poly.add(p3);
+        poly.add(p4);
+        System.out.println(poly.containsPoint(test));
+    }
+
+    private static void containsPointTestOut() {
+        System.out.println("---------containsPointTestOut()------------");
+        Point p1 = new Point(15, 55);
+        Point p2 = new Point(30, 90);
+        Point p3 = new Point(90, 92.5);
+        Point p4 = new Point(65, 75);
+        Point test = new Point(55, 60);
+        ConvexPolygon poly = new ConvexPolygon();
+        poly.add(p1);
+        poly.add(p2);
+        poly.add(p3);
+        poly.add(p4);
+        System.out.println(poly.containsPoint(test));
     }
 }
