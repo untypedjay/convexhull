@@ -1,9 +1,9 @@
 import static java.lang.Math.min;
 
 public class PointSet {
-    private Point [] buffer = null;
-    private int capacity = 0;
-    private int size = 0;
+    protected Point [] buffer = null;
+    protected int capacity = 0;
+    protected int size = 0;
 
     // constructs a void set of points with capacity 0
     public PointSet() {
@@ -17,9 +17,10 @@ public class PointSet {
         this.buffer = new Point[capacity];
     }
 
-    // TODO constructs a set of points with the corner points of a convex polygon
+    // constructs a set of points with the corner points of a convex polygon
     public PointSet(ConvexPolygon points) {
-
+        this(points.capacity * 2);
+        addToPointSet(this, points);
     }
 
     // returns the capacity of the set of points
@@ -89,6 +90,20 @@ public class PointSet {
     private void addToPointSet(PointSet resultSet, PointSet addSet) {
         for (int i = 0; i < addSet.size; ++i) {
             resultSet.add(addSet.buffer[i]);
+        }
+    }
+
+    protected static boolean isLeft(Point start, Point end, Point auditee) {
+        double cross_product = (end.x - start.x) * (auditee.y - start.y) - (end.y - start.y) * (auditee.x - start.x);
+        System.out.println(cross_product);
+        if (cross_product > 0) {
+            return true;
+        } else if (cross_product < 0) {
+            return false;
+        } else if (auditee.x > start.x && auditee.x < end.x && auditee.y > start.y && auditee.y < end.y) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
